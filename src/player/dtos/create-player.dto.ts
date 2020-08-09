@@ -1,5 +1,5 @@
 export class CreatePlayerDTO {
-    phoneNumber: string;
-    email: string;
-    name: string;
+  phoneNumber: string;
+  email: string;
+  name: string;
 }
