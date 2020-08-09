@@ -13,6 +13,11 @@ export class PlayerController {
     return this.playerService.index();
   }
 
+  @Put(':id')
+  async find(@Param('id') id:string) : Promise<Player> {
+    return await this.playerService.find(id);
+  }
+
   @Post()
   async store(@Body() playerDto: CreatePlayerDTO) {
     const { name, email } = playerDto;

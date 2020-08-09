@@ -13,6 +13,14 @@ export class PlayerService {
     return await this.players;
   }
 
+  async find(id: string): Promise<Player> {
+    const player = this.players.find(it => it.__id === id);
+
+    if (!player)
+      throw NotFoundException;
+    return player;
+  }
+
   async insert(playerDto: CreatePlayerDTO): Promise<Player> {
     this.logger.log(`[STORE] PlayerDTO ${JSON.stringify(playerDto)}`);
 
@@ -36,7 +44,7 @@ export class PlayerService {
   async update(id: string, player: Player): Promise<Player> {
     const index = this.players.findIndex(it => it.__id === id);
 
-    if(index !== -1) {
+    if (index !== -1) {
       this.players[index] = player;
       return player;
     } else {
