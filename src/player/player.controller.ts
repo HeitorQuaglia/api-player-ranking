@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Param, Delete } from '@nestjs/common';
 import { Player } from './contracts/player.interface';
 import { CreatePlayerDTO } from './dtos/create-player.dto';
 import { PlayerService } from './player.service';
@@ -28,5 +28,10 @@ export class PlayerController {
   @Put(':id')
   async update(@Param('id') id:string, @Body() player: Player) : Promise<Player> {
     return await this.playerService.update(id, player);
+  }
+
+  @Delete(':id')
+  async destroy(@Param('id') id:string): Promise<void>{
+    this.playerService.destroy(id);
   }
 }

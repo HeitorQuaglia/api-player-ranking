@@ -51,4 +51,8 @@ export class PlayerService {
       throw new NotFoundException("Player not found");
     }
   }
+
+  async destroy(id:string) : Promise<void>{
+    _.remove(this.players, (it:Player) => it.__id === id);
+  }
 }
