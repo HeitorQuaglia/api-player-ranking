@@ -1,6 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreatePlayerDTO } from './dtos/create-player.dto';
 import { Player } from './contracts/player.interface';
+import * as _ from 'lodash';
 import * as uuid from 'uuid/dist/v1';
 
 @Injectable()
@@ -8,17 +9,13 @@ export class PlayerService {
   private players: Player[] = [];
   private readonly logger = new Logger(PlayerService.name);
 
-
-  async index() : Promise<Player[]> {
+  async index(): Promise<Player[]> {
     return await this.players;
   }
 
-  async insertPlayer(playerDto: CreatePlayerDTO): Promise<Player> {
+  async insert(playerDto: CreatePlayerDTO): Promise<Player> {
     this.logger.log(`[STORE] PlayerDTO ${JSON.stringify(playerDto)}`);
-    return this.create(playerDto);;
-  }
 
-  private create(playerDto: CreatePlayerDTO): Player {
     const { name, email, phoneNumber } = playerDto;
 
     const player: Player = {
@@ -34,5 +31,16 @@ export class PlayerService {
     this.players.push(player);
 
     return player;
+  }
+
+  async update(id: string, player: Player): Promise<Player> {
+    const index = this.players.findIndex(it => it.__id === id);
+
+    if(index !== -1) {
+      this.players[index] = player;
+      return player;
+    } else {
+      throw new NotFoundException("Player not found");
+    }
   }
 }
