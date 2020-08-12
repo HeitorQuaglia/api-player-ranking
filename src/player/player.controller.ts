@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Param, Delete, Query } from '@nestjs/common';
 import { Player } from './contracts/player.interface';
 import { CreatePlayerDTO } from './dtos/create-player.dto';
 import { PlayerService } from './player.service';
@@ -7,6 +7,7 @@ import { PlayerService } from './player.service';
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) { }
 
+  //#region REST
   @Get()
   async index(): Promise<Player[]> {
 
@@ -14,7 +15,7 @@ export class PlayerController {
   }
 
   @Put(':id')
-  async find(@Param('id') id:string) : Promise<Player> {
+  async find(@Param('id') id: string): Promise<Player> {
     return await this.playerService.find(id);
   }
 
@@ -26,12 +27,17 @@ export class PlayerController {
   }
 
   @Put(':id')
-  async update(@Param('id') id:string, @Body() player: Player) : Promise<Player> {
+  async update(@Param('id') id: string, @Body() player: Player): Promise<Player> {
     return await this.playerService.update(id, player);
   }
 
   @Delete(':id')
-  async destroy(@Param('id') id:string): Promise<void>{
+  async destroy(@Param('id') id: string): Promise<void> {
     this.playerService.destroy(id);
+  }
+  //#endregion
+  @Get('/validate-email')
+  async validateEmail(@Query('email') email: string) {
+    return this.playerService.validateEmail(email);
   }
 }

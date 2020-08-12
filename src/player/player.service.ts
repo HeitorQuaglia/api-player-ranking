@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreatePlayerDTO } from './dtos/create-player.dto';
 import { Player } from './contracts/player.interface';
 import * as _ from 'lodash';
-import * as uuid from 'uuid/dist/v1';
+import { v1 as uuid } from 'uuid';
 
 @Injectable()
 export class PlayerService {
@@ -54,5 +54,9 @@ export class PlayerService {
 
   async destroy(id:string) : Promise<void>{
     _.remove(this.players, (it:Player) => it.__id === id);
+  }
+
+  async validateEmail(email:string) : Promise<boolean> {
+    return !this.players.some(it => it.email === email);
   }
 }
