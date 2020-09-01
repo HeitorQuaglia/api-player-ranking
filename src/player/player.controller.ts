@@ -14,7 +14,7 @@ export class PlayerController {
     return this.playerService.index();
   }
 
-  @Put(':id')
+  @Get(':id')
   async find(@Param('id') id: string): Promise<Player> {
     return await this.playerService.find(id);
   }
@@ -36,7 +36,7 @@ export class PlayerController {
     this.playerService.destroy(id);
   }
   //#endregion
-  @Get('/validate-email')
+  @Post('/validate-email')
   async validateEmail(@Query('email') email: string) {
     return this.playerService.validateEmail(email);
   }
