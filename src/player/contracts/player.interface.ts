@@ -1,4 +1,6 @@
-export interface Player {
+import { Document } from 'mongoose';
+
+export interface Player extends Document {
   readonly __id: string;
   phoneNumber: string;
   email: string;
@@ -6,4 +8,4 @@ export interface Player {
   ranking: string;
   posRanking: number;
   urlPhoto: string;
-}
+};
